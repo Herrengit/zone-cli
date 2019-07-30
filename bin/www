@@ -1,2 +1,6 @@
 #! /usr/bin/env node
+const fs = require('fs')
+// 复制模板json到dist
+fs.writeFileSync(`${process.cwd()}/dist/config/template.json`, fs.readFileSync(`${process.cwd()}/src/config/template.json`))
+
 require('../dist/main.js');

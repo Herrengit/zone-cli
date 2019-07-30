@@ -117,7 +117,7 @@ var _ora = require('ora');
 
 var _ora2 = _interopRequireDefault(_ora);
 
-var _template = require('../src/config/template.json');
+var _template = require('./config/template.json');
 
 var _template2 = _interopRequireDefault(_template);
 
@@ -157,16 +157,19 @@ main();function checkVersion() {
 
   return new Promise(function () {
     var _ref2 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee2(resolve, reject) {
-      var cliVersion, localVersion, cliVersionArr, localVersionArr, isNew;
+      var spinner, cliVersion, localVersion, cliVersionArr, localVersionArr, isNew;
       return _regenerator2.default.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              console.log(_logSymbols2.default.info, _chalk2.default.green('\u68C0\u67E5zone-cli\u7248\u672C\u4E2D'));
-              _context2.next = 3;
+              console.log('\r');
+              spinner = (0, _ora2.default)('检查zone-cli版本中');
+
+              spinner.start();
+              _context2.next = 5;
               return (0, _latestVersion2.default)("zone-cli");
 
-            case 3:
+            case 5:
               cliVersion = _context2.sent;
               localVersion = require('../package.json').version;
               // console.log(`本地版本${localVersion}, 最新版本${cliVersion}`)
@@ -177,9 +180,13 @@ main();function checkVersion() {
                 return Number(item) > Number(localVersionArr[index]);
               });
 
+              if (!isNew) {
+                spinner.succeed();
+                console.log('\r\nzone-cli\u662F\u6700\u65B0\u7684\r\n');
+              }
               resolve(isNew);
 
-            case 9:
+            case 12:
             case 'end':
               return _context2.stop();
           }
@@ -274,6 +281,7 @@ function checkDir() {
         if (res.watch) {
           (0, _rimraf.sync)(projectName);
           _fs2.default.mkdirSync(projectName);
+          console.log('\r');
           resolve();
         } else {
           // 项目已经存在
@@ -296,9 +304,9 @@ function selectTemplate() {
     });
     var config = {
       type: 'list',
-      message: '请选择创建的项目类型',
+      message: '请选择创建的项目类型\n',
       name: 'select',
-      choices: [new _inquirer2.default.Separator('模板类型')].concat(_toConsumableArray(choices))
+      choices: [].concat(_toConsumableArray(choices))
     };
     _inquirer2.default.prompt(config).then(function (res) {
       var select = res.select;
@@ -386,9 +394,10 @@ function render(projectName, templateName, customizePrompt) {
 
 // 提示
 function build() {
+  console.log('\r');
   console.log(_logSymbols2.default.success, _chalk2.default.green('\u6267\u884C cd ' + projectName));
   console.log(_logSymbols2.default.success, _chalk2.default.green('\u5B89\u88C5\u4F9D\u8D56 \u4E09\u9009\u4E00'));
   console.log(_logSymbols2.default.success, _chalk2.default.green('npm install'));
   console.log(_logSymbols2.default.success, _chalk2.default.green('cnpm install'));
-  console.log(_logSymbols2.default.success, _chalk2.default.green('yard install'));
+  console.log(_logSymbols2.default.success, _chalk2.default.green('yard install'), '\n');
 }

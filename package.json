@@ -1,6 +1,6 @@
 {
   "name": "zone-cli",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "快速生成项目的脚手架",
   "main": "index.js",
   "scripts": {

@@ -9,7 +9,7 @@ import { spawn } from 'child_process'
 import { sync as rm } from 'rimraf'
 import ora from 'ora'
 
-import templateConfig from '../src/config/template.json'
+import templateConfig from './config/template.json'
 import configDefalut from './config/index'
 import downloadLocal from './lib/download'
 import generator from './lib/generator'
@@ -51,7 +51,9 @@ async function main() {
 // 检查版本
 function checkVersion() {
   return new Promise(async (resolve, reject) => {
-    console.log(logSymbols.info, chalk.green(`检查zone-cli版本中`))
+    console.log('\r')
+    const spinner = ora('检查zone-cli版本中')
+    spinner.start();
     let cliVersion = await latestVersion("zone-cli")
     let localVersion = require('../package.json').version
     // console.log(`本地版本${localVersion}, 最新版本${cliVersion}`)
@@ -60,6 +62,10 @@ function checkVersion() {
     let isNew = cliVersionArr.some((item, index) => {
       return Number(item) > Number(localVersionArr[index])
     })
+    if (!isNew) {
+      spinner.succeed()
+      console.log(`\r\nzone-cli是最新的\r\n`)
+    }
     resolve(isNew)
   })
 }
@@ -113,6 +119,7 @@ function checkDir() {
         if (res.watch) {
           rm(projectName)
           fs.mkdirSync(projectName)
+          console.log('\r')
           resolve()
         } else {
           // 项目已经存在
@@ -135,9 +142,9 @@ function selectTemplate() {
       })
       let config = {
         type: 'list',
-        message: '请选择创建的项目类型',
+        message: '请选择创建的项目类型\n',
         name: 'select',
-        choices: [new inquirer.Separator('模板类型'), ...choices]
+        choices: [...choices]
       }
       inquirer.prompt(config).then(res => {
         let { select } = res
@@ -191,9 +198,10 @@ function render(projectName, templateName, customizePrompt) {
 
 // 提示
 function build() {
+  console.log('\r')
   console.log(logSymbols.success, chalk.green(`执行 cd ${projectName}`))
   console.log(logSymbols.success, chalk.green(`安装依赖 三选一`))
   console.log(logSymbols.success, chalk.green(`npm install`))
   console.log(logSymbols.success, chalk.green(`cnpm install`))
-  console.log(logSymbols.success, chalk.green(`yard install`))
+  console.log(logSymbols.success, chalk.green(`yard install`), '\n')
 }
