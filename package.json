@@ -1,6 +1,6 @@
 {
   "name": "zone-cli",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "快速生成项目的脚手架",
   "main": "index.js",
   "scripts": {
@@ -18,11 +18,13 @@
   "license": "ISC",
   "keywords": [
     "zone",
-    "脚手架"
+    "脚手架",
+    "zone-cli"
   ],
   "bugs": {
-    "email": "756880346@qq.com"
+    "url": "https://github.com/Herrengit/zone-cli/issues"
   },
+  "homepage": "https://github.com/Herrengit/zone-cli",
   "dependencies": {
     "babel-cli": "^6.26.0",
     "babel-env": "^2.4.1",
